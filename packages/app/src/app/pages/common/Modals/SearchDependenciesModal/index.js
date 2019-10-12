@@ -1,15 +1,19 @@
 import React from 'react';
-import { inject, hooksObserver } from 'app/componentConnectors';
+import { useOvermind } from 'app/overmind';
 import SearchDependencies from 'app/pages/Sandbox/SearchDependencies';
 
-function SearchDependenciesModal({ signals }) {
+const SearchDependenciesModal: React.FC = () => {
+  const {
+    actions: {
+      editor: { addNpmDependency },
+    },
+  } = useOvermind();
+
   return (
     <SearchDependencies
-      onConfirm={(name, version) =>
-        signals.editor.addNpmDependency({ name, version })
-      }
+      onConfirm={(name, version) => addNpmDependency({ name, version })}
     />
   );
-}
+};
 
-export default inject('signals')(hooksObserver(SearchDependenciesModal));
+export default SearchDependenciesModal;
